@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "../../../python_progs"
+		},
+		{
+			"path": "../../Surrogates_point1"
+		},
+		{
+			"path": "../../Surrogates_minimal"
+		},
+		{
+			"path": ".."
+		}
+	],
+	"settings": {}
+}
