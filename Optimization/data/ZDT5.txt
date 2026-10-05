@@ -1,0 +1,32 @@
+popsize 200
+ngen 100000
+nobj 2
+ncon 0
+nreal 0
+nbin 11
+nbits
+30
+5
+5
+5
+5
+5
+5
+5
+5
+5
+5
+MinMax_Binvar
+0 30
+0 5
+0 5
+0 5
+0 5
+0 5
+0 5
+0 5
+0 5
+0 5
+0 5
+pcross_bin 0.9
+pmut_bin 0.125

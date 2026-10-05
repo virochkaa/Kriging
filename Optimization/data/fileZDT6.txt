@@ -1,0 +1,21 @@
+popsize 100
+ngen 300
+nobj 2
+ncon 0
+nreal 10
+MinMax_Realvar
+0 1
+0 1
+0 1
+0 1
+0 1
+0 1
+0 1
+0 1
+0 1
+0 1
+pcross_real 1
+pmut_real 0.1
+eta_c 20
+eta_m 20
+nbin 0
