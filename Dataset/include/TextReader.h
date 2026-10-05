@@ -68,5 +68,4 @@ public:
             std::move(signal)
         );
     }
-    #testoleg
 };
