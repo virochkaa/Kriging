@@ -1,23 +1,55 @@
 #include "TextReader.h"
+
 #include <fstream>
 #include <iostream>
 
-int main() {
-    const int dimension = 2;
+int main()
+{
+    int dimension = 2;
+    int fieldCount = 1;
+
     std::ifstream input("data/couette_10000.txt");
-    Dataset data = TextReader::read(input, dimension);
 
-    // Full matrix and vector, each accessible separately without copying.
-    const Matrix& X = data.getX();
-    const Vector& y = data.getY();
+    Dataset data =
+        TextReader::Read(input, dimension, fieldCount);
 
-    std::cout << "dimension = " << data.dimension() << '\n';
-    std::cout << "points = " << data.size() << '\n';
-    std::cout << "X[0] = (";
-    for (double coordinate : data.getPoint(0))
-        std::cout << coordinate << ' ';
-    std::cout << "), y[0] = " << data.getResponse(0) << '\n';
-    std::cout << "X[5050][1] = " << data.getCoordinate(5050, 1) << '\n';
-    std::cout << "X rows = " << X.size() << ", y length = " << y.size() << '\n';
+    std::cout
+        << "Dimension: "
+        << data.GetDimension()
+        << '\n';
+
+    std::cout
+        << "Points: "
+        << data.size()
+        << '\n';
+
+    std::size_t pointIdx = 5050;
+
+    std::cout
+        << "x = "
+        << data.getX(pointIdx)
+        << '\n';
+
+    if (dimension >= 2)
+    {
+        std::cout
+            << "y = "
+            << data.getY(pointIdx)
+            << '\n';
+    }
+
+    if (dimension == 3)
+    {
+        std::cout
+            << "z = "
+            << data.getZ(pointIdx)
+            << '\n';
+    }
+
+    std::cout
+        << "signal = "
+        << data.GetSignal(0, pointIdx)
+        << '\n';
+
     return 0;
 }

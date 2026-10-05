@@ -1,47 +1,71 @@
 #pragma once
 
 #include "Dataset.h"
-#include <algorithm>
 #include <istream>
-#include <iterator>
 #include <sstream>
 #include <string>
+#include <utility>
 
-class TextReader {
+class TextReader
+{
 public:
-    static Dataset read(std::istream& input, int dimension, bool skipHeader = false) {
-        if (skipHeader) {
-            std::string header;
-            std::getline(input, header);
+    static Dataset Read(std::istream& input,
+                        int dimension,
+                        int fieldCount = 1)
+    {
+        Vector x, y, z;
+        Matrix signal(fieldCount);
+
+        std::string line;
+
+        while (std::getline(input, line))
+        {
+            std::istringstream row(line);
+
+            double value;
+
+            switch (dimension)
+            {
+                case 1:
+                    row >> value;
+                    x.push_back(value);
+                    break;
+
+                case 2:
+                    row >> value;
+                    x.push_back(value);
+
+                    row >> value;
+                    y.push_back(value);
+                    break;
+
+                case 3:
+                    row >> value;
+                    x.push_back(value);
+
+                    row >> value;
+                    y.push_back(value);
+
+                    row >> value;
+                    z.push_back(value);
+                    break;
+            }
+
+            for (int fieldIdx = 0;
+                 fieldIdx < fieldCount;
+                 ++fieldIdx)
+            {
+                row >> value;
+                signal[fieldIdx].push_back(value);
+            }
         }
 
-        std::string text((std::istreambuf_iterator<char>(input)),
-                          std::istreambuf_iterator<char>());
-        std::replace(text.begin(), text.end(), ',', ' ');
-        std::replace(text.begin(), text.end(), ';', ' ');
-        std::istringstream numbers(text);
-        Dataset data(dimension);
-
-        double x1, x2, x3, response;
-        switch (dimension) {
-            case 1:
-                while (numbers >> x1 >> response)
-                    data.addPoint({x1}, response);
-                break;
-            case 2:
-                while (numbers >> x1 >> x2 >> response)
-                    data.addPoint({x1, x2}, response);
-                break;
-            case 3:
-                while (numbers >> x1 >> x2 >> x3 >> response)
-                    data.addPoint({x1, x2, x3}, response);
-                break;
-        }
-        return data;
-    }
-
-    static Dataset read(const std::string& text, int dimension) {
-        std::istringstream input(text);
-        return read(input, dimension);
+        return Dataset(
+            dimension,
+            std::move(x),
+            std::move(y),
+            std::move(z),
+            std::move(signal)
+        );
     }
 };
